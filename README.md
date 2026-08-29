@@ -18,14 +18,27 @@ Bu proje, **ESP32-C3 Super Mini** mikrodenetleyicisi kullanılarak oluşturulmu�
 - **3D Baskı**: Tamamı 3D printer ile basılabilir gövde
 - **Kompakt**: Masaüstü boyutunda, taşınabilir tasarım
 
+### Önemli: Analog Pin Gerekliliği
+
+Piezo sensörler **analog pinlere** bağlanır. Her piezo için bir analog pin gereklidir.
+
+| Mikrodenetleyici | Analog Pin Sayısı | Maks. Pad |
+|------------------|-------------------|-----------|
+| ESP32-C3 Super Mini | 5 (GPIO0-4) | 5 pad |
+| ESP32-WROOM-32D | 18 (GPIO32-39, GPIO0-5, GPIO34-39) | 18 pad |
+| ESP32-S3 Super Mini | 20 | 20 pad |
+| Arduino Uno | 6 (A0-A5) | 6 pad |
+| Arduino Nano | 8 (A0-A7) | 8 pad |
+
+> **Daha fazla pad istiyorsanız**: ESP32-WROOM-32D veya ESP32-S3 gibi daha çok analog pin'e sahip kartlar kullanarak 10-15 pad'li更大的鼓组 kurabilirsiniz. Kodda `NUM_PADS` sabitini ve `piezoPins` dizisini değiştirmeniz yeterlidir.
+
 ### Gerekli Malzemeler
 
 | Bileşen | Adet | Not |
 |---------|------|-----|
-| ESP32-C3 Super Mini | 1 | USB-C girişli |
+| ESP32-C3 Super Mini | 1 | USB-C girişli, dahili LED (GPIO8) |
 | Piezo Sensör (27mm) | 5 | Her pad için bir adet |
 | Direnç (1MΩ) | 5 | Pull-down direnç |
-| LED (Opsiyonel) | 1 | GPIO8'e bağlı |
 | Jumper Kablo | ~20 | Erkek-dişi |
 | USB-C Kablo | 1 | Kod yükleme için |
 
@@ -56,12 +69,12 @@ ESP32-C3 Super Mini
 │  GPIO3 ──────────── Piezo 4 (Tom)     + 1MΩ direnç
 │  GPIO4 ──────────── Piezo 5 (Cymbal)  + 1MΩ direnç
 │                 │
-│  GPIO8 ──────────── LED (+)           │
 │  GND ────────────── Piezo (-)         │
-│  3.3V ───────────── LED (-)           │
 │                 │
 │  USB-C ──────── Kod yükleme           │
 └─────────────────┘
+
+Not: GPIO8 - Dahili LED (devreye ekstra LED baglantisi gerekmez)
 ```
 
 Detaylı bağlantı için: [docs/WIRING.md](docs/WIRING.md)
@@ -99,7 +112,11 @@ Cihaz adı: **ESP32-C3-Drum**
 | iOS | Cubasis 3 | ✅ Doğrudan çalışır |
 | Android | n-track Studio | ✅ Doğrudan çalışır |
 | Android | Caustic 3 | ✅ Doğrudan çalışır |
+| Web | BandLab | ✅ BLE MIDI destekli |
+| Web | Soundtrap | ✅ BLE MIDI destekli |
 | Windows | loopMIDI + DAW | ⚠️ BLE-MIDI sürücü gerekli |
+
+> **Not**: ESP32-C3 dahili LED (GPIO8) kullanır. Devreye ekstra LED bağlamanıza gerek yoktur.
 
 Detaylı bağlantı ve uygulama kılavuzları için: [docs/BLUETOOTH.md](docs/BLUETOOTH.md)
 
@@ -121,14 +138,27 @@ A compact DIY electronic drum kit built with an **ESP32-C3 Super Mini** microcon
 - **3D Printed**: Fully printable body and pads
 - **Compact**: Desktop-sized, portable design
 
+### Important: Analog Pin Requirement
+
+Piezo sensors connect to **analog pins**. Each piezo requires one analog pin.
+
+| Microcontroller | Analog Pin Count | Max Pads |
+|-----------------|------------------|----------|
+| ESP32-C3 Super Mini | 5 (GPIO0-4) | 5 pads |
+| ESP32-WROOM-32D | 18 (GPIO32-39, GPIO0-5, GPIO34-39) | 18 pads |
+| ESP32-S3 Super Mini | 20 | 20 pads |
+| Arduino Uno | 6 (A0-A5) | 6 pads |
+| Arduino Nano | 8 (A0-A7) | 8 pads |
+
+> **Need more pads?**: Use microcontrollers with more analog pins like ESP32-WROOM-32D or ESP32-S3 to build larger drum kits with 10-15 pads. Just change the `NUM_PADS` constant and `piezoPins` array in the code.
+
 ### Required Components
 
 | Component | Qty | Note |
 |-----------|-----|------|
-| ESP32-C3 Super Mini | 1 | USB-C port |
+| ESP32-C3 Super Mini | 1 | USB-C port, built-in LED (GPIO8) |
 | Piezo Sensor (27mm) | 5 | One per pad |
 | Resistor (1MΩ) | 5 | Pull-down resistor |
-| LED (Optional) | 1 | Connected to GPIO8 |
 | Jumper Wires | ~20 | Male-to-female |
 | USB-C Cable | 1 | For flashing |
 
@@ -159,12 +189,12 @@ ESP32-C3 Super Mini
 │  GPIO3 ──────────── Piezo 4 (Tom)     + 1MΩ resistor
 │  GPIO4 ──────────── Piezo 5 (Cymbal)  + 1MΩ resistor
 │                 │
-│  GPIO8 ──────────── LED (+)           │
 │  GND ────────────── Piezo (-)         │
-│  3.3V ───────────── LED (-)           │
 │                 │
 │  USB-C ──────── Flashing              │
 └─────────────────┘
+
+Note: GPIO8 - Built-in LED (no external LED connection needed)
 ```
 
 For detailed wiring: [docs/WIRING.md](docs/WIRING.md)
@@ -202,7 +232,11 @@ Device name: **ESP32-C3-Drum**
 | iOS | Cubasis 3 | ✅ Works out of the box |
 | Android | n-track Studio | ✅ Works out of the box |
 | Android | Caustic 3 | ✅ Works out of the box |
+| Web | BandLab | ✅ BLE MIDI supported |
+| Web | Soundtrap | ✅ BLE MIDI supported |
 | Windows | loopMIDI + DAW | ⚠️ BLE-MIDI driver needed |
+
+> **Note**: ESP32-C3 uses built-in LED (GPIO8). No external LED connection needed.
 
 For detailed connection and app guides: [docs/BLUETOOTH.md](docs/BLUETOOTH.md)
 
@@ -213,7 +247,7 @@ For detailed connection and app guides: [docs/BLUETOOTH.md](docs/BLUETOOTH.md)
 ```
 drumkit/
 ├── README.md              # This file / Bu dosya
-├── LICENSE                # MIT License
+├── LICENSE                # CC BY-NC-SA 4.0
 ├── firmware/
 │   └── drumkit/
 │       └── drumkit.ino    # Arduino code / Arduino kodu
@@ -227,9 +261,18 @@ drumkit/
 └── images/                # Documentation images / Görseller
 ```
 
-## 📜 License
+## 📜 License / Lisans
 
-MIT License - Özgürce kullanabilir, değiştirebilir ve dağıtabilirsiniz.
+**CC BY-NC-SA 4.0** (Creative Commons Atıf-GayriTicari-AyniLisanslaPaylaş 4.0 Uluslararası)
+
+Bu eser:
+- ✅ Kişisel/bireysel kullanım için özgürdür
+- ✅ Atıf ile alıntı yapabilirsiniz
+- ✅ Değiştirip türetebilirsiniz
+- ✗ Ticari amaçla kullanılamaz
+- ⚠️ Türev eserler aynı lisansla (CC BY-NC-SA 4.0) paylaşılmalıdır
+
+Detaylı lisans için: [LICENSE](LICENSE)
 
 ## � Katkıda Bulunma
 

@@ -229,6 +229,81 @@ n-track Studio General MIDI drum haritalamasını kullanır:
 
 ---
 
+### Çevrimiçi Platformlar (Platform Bağımsız)
+
+ESP32-C3 drum kit'iniz sadece yerel uygulamalarla değil, aynı zamanda **çevrimiçi DAW** platformlarıyla da çalışır. Bu sayede herhangi bir uygulama indirmenize gerek kalmadan tarayıcı üzerinden müzik yapabilirsiniz.
+
+#### BandLab (bandlab.com)
+
+BandLab, ücretsiz çevrimiçi DAW'dır. BLE MIDI cihazlarını doğrudan destekler.
+
+##### Bağlantı Adımları
+
+1. **Telefonunuzdan** BandLab uygulamasını veya tarayıcınızdan **bandlab.com** adresini açın
+2. Yeni bir proje oluşturun veya mevcut bir projeyi açın
+3. **Bluetooth MIDI Bağlantısı**:
+   - **Android**: Uygulama içinden BLE MIDI taraması başlatın → "ESP32-C3-Drum" seçin
+   - **iOS**: Uygulama BLE MIDI'yi otomatik algılar → "ESP32-C3-Drum" seçin
+4. Yeni bir **Davul** (Drum) parçası ekleyin
+5. Pad'lerinize vurarak test edin
+
+```
+BandLab - Davul Parçası Oluşturma:
+┌─────────────────────────────────────────┐
+│  + Track > Drum > Empty Kit             │
+│                                         │
+│  MIDI Input: ESP32-C3-Drum              │
+│  Channel: 10                            │
+└─────────────────────────────────────────┘
+```
+
+##### BandLab İpuçları
+
+- **Davul Preset'leri**: "808 Kit", "Acoustic Kit", "Electronic Kit" gibi preset'leri deneyin
+- **Loop Kayıt**: Bir loop kaydedin, sonra其他的 parçaları ekleyin
+- **Paylaşım**: Kaydettiğiniz projeleri doğrudan BandLab'de paylaşabilirsiniz
+
+#### Soundtrap (soundtrap.com)
+
+Soundtrap (Spotify'ın online DAW'ı) da BLE MIDI destekler.
+
+1. **soundtrap.com** adresine gidin
+2. Yeni proje oluşturun
+3. **MIDIForKeyboard** ayarlarında "ESP32-C3-Drum" seçin
+4. Davul parçası ekleyin ve çalmaya başlayın
+
+#### CodePen / Web MIDI API
+
+Geliştiriciler için: Web MIDI API ile tarayıcıda doğrudan MIDI alabilirsiniz.
+
+```javascript
+// Web MIDI API ile ESP32-C3 drum kit'i okuma
+navigator.requestMIDIAccess().then(midiAccess => {
+  for (const input of midiAccess.inputs.values()) {
+    input.onmidimessage = (event) => {
+      const [status, note, velocity] = event.data;
+      console.log(`Pad: ${note}, Velocity: ${velocity}`);
+    };
+  }
+});
+```
+
+> Bu özellik sadece Chrome ve Edge tarayıcılarında çalışır. Safari'de sınırlı destek vardır.
+
+#### Diğer Çevrimiçi Platformlar
+
+| Platform | URL | MIDI Desteği | Not |
+|----------|-----|-------------|-----|
+| **BandLab** | bandlab.com | ✅ BLE MIDI | Ücretsiz, mobil + web |
+| **Soundtrap** | soundtrap.com | ✅ BLE MIDI | Spotify DAW, ücretli |
+| **Amped Studio** | ampedstudio.com | ✅ Web MIDI | Ücretsiz deneme |
+| **AudioTool** | audiotool.com | ⚠️ Sadece USB | Android için uygun değil |
+| **Soundation** | soundation.com | ⚠️ Sınırlı | Ücretsiz plan mevcut |
+
+> **Not**: Çevrimiçi platformlarda BLE MIDI desteği cihazın işletim sistemine bağlıdır. macOS ve iOS'ta doğrudan çalışır. Android'de uygulama içi BLE MIDI bağlantısı gerekir.
+
+---
+
 ### Genel Sorun Giderme
 
 #### Bağlantı Kurulamıyor
@@ -481,6 +556,81 @@ n-track Studio uses General MIDI drum mapping:
 - **Cubasis 3** (Professional DAW)
 - **AUM** (Mixer/Router)
 - **MIDI Wrench** (MIDI testing tool)
+
+---
+
+### Online Platforms (Platform Independent)
+
+Your ESP32-C3 drum kit works not only with local apps but also with **online DAW** platforms. This allows you to make music directly in your browser without installing any applications.
+
+#### BandLab (bandlab.com)
+
+BandLab is a free online DAW that natively supports BLE MIDI devices.
+
+##### Connection Steps
+
+1. Open the **BandLab app** on your phone or go to **bandlab.com** in your browser
+2. Create a new project or open an existing one
+3. **BLE MIDI Connection**:
+   - **Android**: Start BLE MIDI scan within the app → Select "ESP32-C3-Drum"
+   - **iOS**: App auto-detects BLE MIDI → Select "ESP32-C3-Drum"
+4. Add a new **Drum** track
+5. Test by hitting your pads
+
+```
+BandLab - Creating Drum Track:
+┌─────────────────────────────────────────┐
+│  + Track > Drum > Empty Kit             │
+│                                         │
+│  MIDI Input: ESP32-C3-Drum              │
+│  Channel: 10                            │
+└─────────────────────────────────────────┘
+```
+
+##### BandLab Tips
+
+- **Drum Presets**: Try "808 Kit", "Acoustic Kit", "Electronic Kit" presets
+- **Loop Recording**: Record a loop, then add other tracks
+- **Sharing**: Share your projects directly on BandLab
+
+#### Soundtrap (soundtrap.com)
+
+Soundtrap (Spotify's online DAW) also supports BLE MIDI.
+
+1. Go to **soundtrap.com**
+2. Create a new project
+3. Select "ESP32-C3-Drum" in MIDI keyboard settings
+4. Add a drum track and start playing
+
+#### CodePen / Web MIDI API
+
+For developers: You can read MIDI directly in the browser using the Web MIDI API.
+
+```javascript
+// Reading ESP32-C3 drum kit with Web MIDI API
+navigator.requestMIDIAccess().then(midiAccess => {
+  for (const input of midiAccess.inputs.values()) {
+    input.onmidimessage = (event) => {
+      const [status, note, velocity] = event.data;
+      console.log(`Pad: ${note}, Velocity: ${velocity}`);
+    };
+  }
+});
+```
+
+> This feature works only in Chrome and Edge browsers. Safari has limited support.
+
+#### Other Online Platforms
+
+| Platform | URL | MIDI Support | Note |
+|----------|-----|-------------|------|
+| **BandLab** | bandlab.com | ✅ BLE MIDI | Free, mobile + web |
+| **Soundtrap** | soundtrap.com | ✅ BLE MIDI | Spotify DAW, paid |
+| **Amped Studio** | ampedstudio.com | ✅ Web MIDI | Free trial |
+| **AudioTool** | audiotool.com | ⚠️ USB only | Not suitable for Android |
+| **Soundation** | soundation.com | ⚠️ Limited | Free plan available |
+
+> **Note**: BLE MIDI support on online platforms depends on the device's operating system. Works directly on macOS and iOS. On Android, in-app BLE MIDI connection is required.
 
 ---
 

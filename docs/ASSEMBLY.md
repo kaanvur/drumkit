@@ -47,7 +47,7 @@ Tüm siyah kabloları birleştirin (ortak GND).
 
 1. 1MΩ dirençleri her GPIO pini ile GND arasına bağlayın
 2. Piezo kablolarını ESP32 pinlerine bağlayın
-3. LED'i GPIO8 ve 3.3V arasına bağlayın (opsiyonel)
+3. LED bağlantısı gerekmez - ESP32-C3 Super Mini üzerinde yerleşik LED (GPIO8) vardır
 
 ![Circuit](../images/circuit.jpg)
 
@@ -119,7 +119,7 @@ Combine all black wires (common GND).
 
 1. Connect 1MΩ resistors between each GPIO pin and GND
 2. Connect piezo wires to ESP32 pins
-3. Connect LED between GPIO8 and 3.3V (optional)
+3. No LED connection needed - ESP32-C3 Super Mini has a built-in LED on GPIO8
 
 ### Step 5: Mounting into Base
 

@@ -2,12 +2,25 @@
 
 ## 🇹🇷 Türkçe
 
+### Analog Pin Gerekliliği
+
+Piezo sensörler **analog pinlere** bağlanır. ADC (Analog-to-Digital Converter) ile okuma yapılır. Her piezo için bir analog pin gereklidir.
+
+| Mikrodenetleyici | Analog Pin Sayısı | Kullanılabilir GPIO'lar |
+|------------------|-------------------|-------------------------|
+| ESP32-C3 Super Mini | 5 | GPIO0, GPIO1, GPIO2, GPIO3, GPIO4 |
+| ESP32-WROOM-32D | 18 | GPIO32-39, GPIO0-5, GPIO34-39 |
+| ESP32-S3 Super Mini | 20 | GPIO1-20 |
+| Arduino Uno | 6 | A0-A5 |
+| Arduino Nano | 8 | A0-A7 |
+
+> **Daha fazla pad için**: ESP32-WROOM-32D gibi daha çok analog pin'e sahip kartlar kullanarak更大鼓组 kurabilirsiniz. Kodda `NUM_PADS` ve `piezoPins` dizisini güncellemeniz yeterlidir.
+
 ### Malzeme Listesi
 
-- 1x ESP32-C3 Super Mini
+- 1x ESP32-C3 Super Mini (dahili LED: GPIO8)
 - 5x Piezo sensör (27mm çap)
 - 5x 1MΩ direnç (pull-down)
-- 1x LED (opsiyonel)
 - Jumper kablolar
 
 ### Bağlantı Şeması
@@ -37,13 +50,9 @@ Piezo Sensör Bağlantısı (her pad için):
 
 > **Not**: GPIO2 ters trigger modundadır. Bos durumda ADC degeri yuksektir (4095), vuruşta düşer.
 
-### LED Bağlantısı
+### Dahili LED
 
-```
-GPIO8 ──── LED (+) ──── 220Ω ──── 3.3V
-```
-
-> LED opsiyoneldir. Her vuruşta 50ms yanıp söner.
+ESP32-C3 Super Mini üzerinde yerleşik bir LED bulunur (GPIO8). Devreye ekstra LED bağlamaya gerek yoktur. Kodda her vuruşta 50ms yanıp söner.
 
 ### Direnç Bağlantısı Detayı
 
@@ -59,16 +68,17 @@ Bu direnç, piezo'dan gelen yüksek empedanslı sinyali GND'ye çekerek boş dur
                     ┌──────────────────────┐
                     │   ESP32-C3 Super Mini │
                     │                      │
-    Piezo 1 ────────┤ GPIO0           3.3V ├──── LED (-)
-    Piezo 2 ────────┤ GPIO1            GND ├──── Piezo (-) hepsi
-    Piezo 3 ────────┤ GPIO2              8 ├──── LED (+)
-    Piezo 4 ────────┤ GPIO3              │ │
-    Piezo 5 ────────┤ GPIO4              │ │
-                    │                      │ │
-                    │          USB-C ──────┤ │
-                    └──────────────────────┘ │
-                                             │
-    1MΩ dirençler: her GPIO ↔ GND arası    │
+    Piezo 1 ────────┤ GPIO0            GND ├──── Piezo (-) hepsi
+    Piezo 2 ────────┤ GPIO1                │
+    Piezo 3 ────────┤ GPIO2                │
+    Piezo 4 ────────┤ GPIO3                │
+    Piezo 5 ────────┤ GPIO4                │
+                    │                      │
+                    │  GPIO8 (Dahili LED)  │
+                    │          USB-C ──────┤
+                    └──────────────────────┘
+
+    1MΩ dirençler: her GPIO ↔ GND arası
 ```
 
 ### Lehimleme İpuçları
@@ -82,12 +92,25 @@ Bu direnç, piezo'dan gelen yüksek empedanslı sinyali GND'ye çekerek boş dur
 
 ## 🇬🇧 English
 
+### Analog Pin Requirement
+
+Piezo sensors connect to **analog pins**. They are read using ADC (Analog-to-Digital Converter). Each piezo requires one analog pin.
+
+| Microcontroller | Analog Pin Count | Available GPIOs |
+|-----------------|------------------|-----------------|
+| ESP32-C3 Super Mini | 5 | GPIO0, GPIO1, GPIO2, GPIO3, GPIO4 |
+| ESP32-WROOM-32D | 18 | GPIO32-39, GPIO0-5, GPIO34-39 |
+| ESP32-S3 Super Mini | 20 | GPIO1-20 |
+| Arduino Uno | 6 | A0-A5 |
+| Arduino Nano | 8 | A0-A7 |
+
+> **For more pads**: Use microcontrollers with more analog pins like ESP32-WROOM-32D to build larger drum kits. Just update `NUM_PADS` and `piezoPins` array in the code.
+
 ### Components
 
-- 1x ESP32-C3 Super Mini
+- 1x ESP32-C3 Super Mini (built-in LED: GPIO8)
 - 5x Piezo sensors (27mm diameter)
 - 5x 1MΩ resistors (pull-down)
-- 1x LED (optional)
 - Jumper wires
 
 ### Wiring Diagram
@@ -117,13 +140,9 @@ Piezo Sensor Connection (for each pad):
 
 > **Note**: GPIO2 is in inverted trigger mode. Idle ADC value is high (4095), drops on hit.
 
-### LED Connection
+### Built-in LED
 
-```
-GPIO8 ──── LED (+) ──── 220Ω ──── 3.3V
-```
-
-> LED is optional. Flashes for 50ms on each hit.
+ESP32-C3 Super Mini has a built-in LED on GPIO8. No external LED connection is needed. In the code, it flashes for 50ms on each hit.
 
 ### Full Circuit
 
@@ -131,14 +150,15 @@ GPIO8 ──── LED (+) ──── 220Ω ──── 3.3V
                     ┌──────────────────────┐
                     │   ESP32-C3 Super Mini │
                     │                      │
-    Piezo 1 ────────┤ GPIO0           3.3V ├──── LED (-)
-    Piezo 2 ────────┤ GPIO1            GND ├──── Piezo (-) all
-    Piezo 3 ────────┤ GPIO2              8 ├──── LED (+)
-    Piezo 4 ────────┤ GPIO3              │ │
-    Piezo 5 ────────┤ GPIO4              │ │
-                    │                      │ │
-                    │          USB-C ──────┤ │
-                    └──────────────────────┘ │
-                                             │
-    1MΩ resistors: between each GPIO ↔ GND  │
+    Piezo 1 ────────┤ GPIO0            GND ├──── Piezo (-) all
+    Piezo 2 ────────┤ GPIO1                │
+    Piezo 3 ────────┤ GPIO2                │
+    Piezo 4 ────────┤ GPIO3                │
+    Piezo 5 ────────┤ GPIO4                │
+                    │                      │
+                    │  GPIO8 (Built-in LED)│
+                    │          USB-C ──────┤
+                    └──────────────────────┘
+
+    1MΩ resistors: between each GPIO ↔ GND
 ```
