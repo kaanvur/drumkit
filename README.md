@@ -4,6 +4,8 @@
 
 ![Hero](images/hero.png)
 
+[![MakerWorld](https://makerworld.com/badges/redistribute.svg)](https://makerworld.com/tr/models/3235210-drum-kit-using-esp32-bluetooth-midi)
+
 ## 🇹🇷 Türkçe
 
 ### Proje Hakkında
@@ -127,6 +129,8 @@ Detaylı bağlantı ve uygulama kılavuzları için: [docs/BLUETOOTH.md](docs/BL
 ### About
 
 A compact DIY electronic drum kit built with an **ESP32-C3 Super Mini** microcontroller. Features 3D-printed pads, piezo sensors, and wireless Bluetooth Low Energy (BLE) MIDI connectivity.
+
+[![MakerWorld](https://makerworld.com/badges/redistribute.svg)](https://makerworld.com/tr/models/3235210-drum-kit-using-esp32-bluetooth-midi)
 
 ![Assembled](images/assembled-front.jpg)
 
